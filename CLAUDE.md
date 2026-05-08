@@ -28,9 +28,19 @@ The actual application lives in the sibling repo `/Users/martiwarda/Projects/hom
 
 - **Wikilinks first.** Reference notes via `[[Note name]]`, not file paths. When pointing the user at content, prefer the wikilink form.
 - **Tags.** `#area/<area>`, `#tipo/<type>`, `#estado/<status>`, `#prio/<priority>`. Keep tags consistent with what's already in use — search before inventing new ones.
-- **Status values.** `estado: vigente` (current, authoritative) vs `estado: borrador` (draft, in progress).
-- **Templates.** New notes that fit a known shape should start from `_Plantillas/Plantilla-*.md`. Don't invent a structure if a template already exists.
+- **Frontmatter required.** Every note starts with YAML: `tags`, `type`, plus `estado` / `aliases` / `created` when they apply. Mirror the shape of neighbouring notes in the same folder.
+- **Filenames.** `Kebab-Title-Case`, Spanish, **no accents and no `ñ`** (sync compatibility). Put accented or alternative names in `aliases:`.
+- **Status flow.** `#estado/idea → #estado/borrador → #estado/revision → #estado/vigente → #estado/archivada`. `vigente` = source of truth; `archivada` = kept for history, not deleted.
+- **Templates.** `_Plantillas/` holds: `Plantilla-Articulo`, `Plantilla-Comparativa`, `Plantilla-Categoria`, `Plantilla-Decision`, `Plantilla-Experimento`, `Plantilla-Reunion`, `Plantilla-Brief-IA`, `Plantilla-Post-mortem`, `Plantilla-MOC`. When you copy one, replace the `{{title}}` placeholder.
 - **Language.** Vault content is in **Spanish** — match the existing tone and vocabulary when editing notes. `.claude/` infrastructure and this file stay in English.
+
+## Creating a note
+
+1. Pick the right folder + template from `_Plantillas/`.
+2. Filename: kebab-case Spanish, no accents.
+3. Fill frontmatter (`tags`, `type`, `estado: borrador` to start).
+4. Add a wikilink to the area's `_MOC-*.md` so the note is reachable from `Inicio.md`. **A note with no incoming MOC link is orphaned.**
+5. Add a `## Relacionado` section with `[[ ]]` links to neighbouring notes.
 
 ## Workflows
 
@@ -45,3 +55,4 @@ Two skills govern this repo. Both auto-trigger when their description matches.
 - Don't invent file paths. Search wikilinks and MOCs first; if you can't find a target, ask.
 - Don't bypass `ship` — no direct commits on `main`, no `git add -A`, no `--no-verify`.
 - Don't translate vault content to English unilaterally. Keep Spanish unless the user explicitly asks otherwise.
+- Don't create a note without updating its area `_MOC-*.md` — the graph is the navigation, folders aren't.
